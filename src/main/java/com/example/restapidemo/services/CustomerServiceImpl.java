@@ -30,4 +30,11 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerAPI getCustomerByLastName(String lastname) {
         return customerMapper.customerToCustomerAPI(customerRepository.findFirstByLastname(lastname));
     }
+
+    @Override
+    public List<CustomerAPI> getAllCustomersByLastName(String lastName) {
+        return customerRepository.findAllByLastname(lastName).stream()
+                .map(customerMapper::customerToCustomerAPI)
+                .collect(Collectors.toList());
+    }
 }

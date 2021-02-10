@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CustomerControllerTest {
 
     public static final String firstName = "Daniel";
+    public static final String lastName = "Smith";
 
     MockMvc mockMvc;
 
@@ -76,5 +77,29 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(firstName)));
+    }
+
+    @Test
+    public void testGetAllCustomersByLastName() throws Exception {
+        CustomerAPI customerAPI1 = new CustomerAPI();
+        customerAPI1.setLastname(lastName);
+        customerAPI1.setFirstname("John");
+        customerAPI1.setId(1L);
+
+        CustomerAPI customerAPI2 = new CustomerAPI();
+        customerAPI2.setFirstname("Bob");
+        customerAPI2.setLastname(lastName);
+        customerAPI2.setId(2L);
+
+        List<CustomerAPI> customerAPIList = new ArrayList<>();
+        customerAPIList.add(customerAPI1);
+        customerAPIList.add(customerAPI2);
+
+        when(customerService.getAllCustomersByLastName(anyString())).thenReturn(customerAPIList);
+
+        mockMvc.perform(get("/api/customers/Smith/all")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.customers", hasSize(2))); // $ is root
     }
 }

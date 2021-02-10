@@ -49,6 +49,19 @@ class CustomerServiceTest {
     }
 
     @Test
+    void getAllCustomersByLastName() {
+
+        List<Customer> customers = Arrays.asList(new Customer());
+
+        when(customerRepository.findAllByLastname(anyString())).thenReturn(customers);
+
+        List<CustomerAPI> customerAPIs = customerService.getAllCustomersByLastName("TheDude");
+
+        assertEquals(1, customerAPIs.size());
+    }
+
+
+    @Test
     void getCustomerByLastName() {
         Customer temp = new Customer();
         temp.setFirstname(firstName);

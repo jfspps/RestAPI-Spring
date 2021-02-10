@@ -30,12 +30,22 @@ public class CustomerController {
     }
 
     /**
-     * Returns (currently) a JSON of a customer, of the last name given, with their properties
+     * Returns (currently) a JSON of the first customer found, with the last name given, with their properties
      * @param lastName customer's last name
      * @return JSON formatted list
      */
     @GetMapping("/{lastName}")
     public ResponseEntity<CustomerAPI> getCustomerByLastName(@PathVariable String lastName){
         return new ResponseEntity<>(customerService.getCustomerByLastName(lastName), HttpStatus.OK);
+    }
+
+    /**
+     * Returns (currently) a JSON of all customers found, with the last name given, with their properties
+     * @param lastName customers' last name
+     * @return JSON formatted list
+     */
+    @GetMapping("/{lastName}/all")
+    public ResponseEntity<CustomerListAPI> getAllCustomersByLastName(@PathVariable String lastName){
+        return new ResponseEntity<>(new CustomerListAPI(customerService.getAllCustomersByLastName(lastName)), HttpStatus.OK);
     }
 }

@@ -8,4 +8,6 @@ public interface CustomerService {
     List<CustomerAPI> getAllCustomers();
 
     CustomerAPI getCustomerByLastName(String lastname);
+
+    List<CustomerAPI> getAllCustomersByLastName(String lastName);
 }
