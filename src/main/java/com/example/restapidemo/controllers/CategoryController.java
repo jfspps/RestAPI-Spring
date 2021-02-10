@@ -20,11 +20,20 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+    /**
+     * Returns (currently) a JSON of all fruit categories with their properties
+     * @return JSON formatted list
+     */
     @GetMapping("/")
     public ResponseEntity<CategoryListAPI> getAllCategories(){
         return new ResponseEntity<>(new CategoryListAPI(categoryService.getAllCategories()), HttpStatus.OK);
     }
 
+    /**
+     * Returns (currently) a JSON of the fruit category, of the name given, with their properties
+     * @param name name of the category (Dried, Exotix etc.)
+     * @return JSON formatted list
+     */
     @GetMapping("/{name}")
     public ResponseEntity<CategoryAPI> getCategoryByName(@PathVariable String name){
         return new ResponseEntity<>(categoryService.getCategoryByName(name), HttpStatus.OK);
