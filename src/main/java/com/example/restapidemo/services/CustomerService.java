@@ -9,5 +9,9 @@ public interface CustomerService {
 
     CustomerAPI getCustomerByLastName(String lastname);
 
+    CustomerAPI getCustomerById(Long id);
+
     List<CustomerAPI> getAllCustomersByLastName(String lastName);
+
+    CustomerAPI createCustomer(CustomerAPI customerAPI);
 }

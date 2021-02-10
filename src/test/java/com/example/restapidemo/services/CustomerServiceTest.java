@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,5 +75,39 @@ class CustomerServiceTest {
         assertEquals(lastName, customerAPI.getLastname());
         assertEquals(id, customerAPI.getId());
         assertEquals(firstName, customerAPI.getFirstname());
+    }
+
+    @Test
+    void getCustomerById() {
+        Customer temp = new Customer();
+        temp.setFirstname(firstName);
+        temp.setLastname(lastName);
+        temp.setId(id);
+
+        when(customerRepository.findCustomerById(anyLong())).thenReturn(temp);
+
+        CustomerAPI customerAPI = customerService.getCustomerById(300L);
+
+        assertEquals(lastName, customerAPI.getLastname());
+        assertEquals(id, customerAPI.getId());
+        assertEquals(firstName, customerAPI.getFirstname());
+    }
+
+    @Test
+    void createNewCustomer() throws Exception {
+         CustomerAPI customerAPI = new CustomerAPI();
+         customerAPI.setLastname(lastName);
+
+         Customer saved = new Customer();
+         saved.setFirstname(firstName);
+         saved.setLastname(lastName);
+         saved.setId(id);
+
+         when(customerRepository.save(any(Customer.class))).thenReturn(saved);
+
+         CustomerAPI savedAPI = customerService.createCustomer(customerAPI);
+
+         assertEquals(lastName, savedAPI.getLastname());
+         assertEquals("/api/customers/id/" + id, savedAPI.getCustomer_url());
     }
 }
