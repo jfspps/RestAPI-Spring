@@ -3,10 +3,12 @@ package com.example.restapidemo.services;
 import com.example.restapidemo.api.mapper.CategoryMapper;
 import com.example.restapidemo.api.model.CategoryAPI;
 import com.example.restapidemo.repositories.CategoryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;

@@ -25,7 +25,7 @@ class CategoryServiceTest {
     public static final String NAME = "Jimmy";
 
     // recall that CategoryService defines the DB operations, through CategoryRepository, so we call from the service
-    // and check if this calls the repository
+    // and check if this calls the repository methods here
     CategoryService categoryService;
 
     @Mock
