@@ -66,4 +66,14 @@ public class CustomerController {
     public ResponseEntity<CustomerAPI> createNewCustomer(@RequestBody CustomerAPI customerAPI){
         return new ResponseEntity<>(customerService.createCustomer(customerAPI), HttpStatus.CREATED);
     }
+
+    /**
+     * Updates a customer and saves their records to the endpoint DB. Use "/api/customers/id/{someId}"
+     * @param customerAPI body of the request
+     * @return customer URL "/api/customers/id/customer_id"
+     */
+    @PutMapping({"/id/{ID}"})
+    public ResponseEntity<CustomerAPI> updateCustomer(@PathVariable String ID, @RequestBody CustomerAPI customerAPI){
+        return new ResponseEntity<>(customerService.saveCustomer(Long.valueOf(ID), customerAPI), HttpStatus.OK);
+    }
 }

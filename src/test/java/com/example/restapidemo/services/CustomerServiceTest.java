@@ -110,4 +110,22 @@ class CustomerServiceTest {
          assertEquals(lastName, savedAPI.getLastname());
          assertEquals("/api/customers/id/" + id, savedAPI.getCustomer_url());
     }
+
+    @Test
+    void saveCustomer() throws Exception {
+        CustomerAPI customerAPI = new CustomerAPI();
+        customerAPI.setLastname(lastName);
+
+        Customer saved = new Customer();
+        saved.setFirstname(firstName);
+        saved.setLastname(lastName);
+        saved.setId(id);
+
+        when(customerRepository.save(any(Customer.class))).thenReturn(saved);
+
+        CustomerAPI savedAPI = customerService.saveCustomer(id, customerAPI);
+
+        assertEquals(lastName, savedAPI.getLastname());
+        assertEquals("/api/customers/id/" + id, savedAPI.getCustomer_url());
+    }
 }

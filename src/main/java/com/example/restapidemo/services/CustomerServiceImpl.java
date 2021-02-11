@@ -52,12 +52,24 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerAPI createCustomer(CustomerAPI customerAPI) {
 
         Customer newCustomer = customerMapper.customerAPIToCustomer(customerAPI);
+        return saveCustomerAndReturnAPI(newCustomer);
+    }
+
+    @Override
+    public CustomerAPI saveCustomer(Long id, CustomerAPI customerAPI) {
+        Customer customer = customerMapper.customerAPIToCustomer(customerAPI);
+        customer.setId(id);
+
+        return saveCustomerAndReturnAPI(customer);
+    }
+
+    private CustomerAPI saveCustomerAndReturnAPI(Customer newCustomer) {
         Customer saved = customerRepository.save(newCustomer);
 
         CustomerAPI foundCustomerAPI = customerMapper.customerToCustomerAPI(saved);
         foundCustomerAPI.setCustomer_url(CUSTOMER_URL + "/id/" + saved.getId());
 
-        log.info("Customer added: " + foundCustomerAPI.getCustomer_url());
+        log.info("Customer updated: " + foundCustomerAPI.getCustomer_url());
         return foundCustomerAPI;
     }
 }

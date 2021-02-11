@@ -22,8 +22,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -154,5 +153,30 @@ class CustomerControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void saveCustomer() throws Exception {
+        //given
+        CustomerAPI customer = new CustomerAPI();
+        customer.setFirstname("Mary");
+        customer.setLastname("Magdalen");
+        customer.setId(1L);
+
+        CustomerAPI savedCustomer = new CustomerAPI();
+        savedCustomer.setFirstname(customer.getFirstname());
+        savedCustomer.setLastname(customer.getLastname());
+        savedCustomer.setCustomer_url("/api/customers/id/1");
+
+        when(customerService.saveCustomer(1L, customer)).thenReturn(savedCustomer);
+
+        // testing a PUT request
+        mockMvc.perform(put("/api/customers/id/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstname", equalTo("Mary")))
+                .andExpect(jsonPath("$.lastname", equalTo("Magdalen")))
+                .andExpect(jsonPath("$.customer_url", equalTo("/api/customers/id/1")));
     }
 }

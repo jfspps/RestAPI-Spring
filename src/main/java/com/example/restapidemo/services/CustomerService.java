@@ -14,4 +14,6 @@ public interface CustomerService {
     List<CustomerAPI> getAllCustomersByLastName(String lastName);
 
     CustomerAPI createCustomer(CustomerAPI customerAPI);
+
+    CustomerAPI saveCustomer(Long id, CustomerAPI customerAPI);
 }
