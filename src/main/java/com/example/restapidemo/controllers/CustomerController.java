@@ -70,6 +70,7 @@ public class CustomerController {
     /**
      * Updates a customer and saves their records to the endpoint DB. Use "/api/customers/id/{someId}"
      * @param customerAPI body of the request
+     * @param ID id of the customer to be deleted
      * @return customer URL "/api/customers/id/customer_id"
      */
     @PutMapping({"/id/{ID}"})
@@ -80,10 +81,24 @@ public class CustomerController {
     /**
      * Updates a customer and saves their records to the endpoint DB. Use "/api/customers/id/{someId}"
      * @param customerAPI body of the request (note that some properties can be null and are subsequently ignored)
+     * @param ID id of the customer to be deleted
      * @return customer URL "/api/customers/id/customer_id"
      */
     @PatchMapping({"/id/{ID}"})
     public ResponseEntity<CustomerAPI> patchCustomer(@PathVariable String ID, @RequestBody CustomerAPI customerAPI){
         return new ResponseEntity<>(customerService.patchCustomer(Long.valueOf(ID), customerAPI), HttpStatus.OK);
+    }
+
+    /**
+     * Deletes a customer from the endpoint DB. Use "/api/customers/id/{someId}"
+     * @param ID id of the customer to be deleted
+     * @return customer URL "/api/customers/id/customer_id"
+     */
+    @DeleteMapping({"/id/{ID}"})
+    public ResponseEntity<Void> deleteCustomer(@PathVariable String ID){
+
+        customerService.deleteCustomerById(Long.valueOf(ID));
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

@@ -19,4 +19,6 @@ public interface CustomerService {
 
     // similar to saveCustomer except that some fields are allowed to be null (e.g. update first name only)
     CustomerAPI patchCustomer(Long id, CustomerAPI customerDTO);
+
+    void deleteCustomerById(Long id);
 }

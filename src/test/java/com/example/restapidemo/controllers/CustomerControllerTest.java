@@ -21,7 +21,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +31,7 @@ class CustomerControllerTest {
 
     public static final String firstName = "Daniel";
     public static final String lastName = "Smith";
+    public static final String URL_ROOT = "/api/customers";
 
     MockMvc mockMvc;
 
@@ -61,7 +62,7 @@ class CustomerControllerTest {
 
         when(customerService.getAllCustomers()).thenReturn(customerAPIList);
 
-        mockMvc.perform(get("/api/customers/")
+        mockMvc.perform(get(URL_ROOT + "/")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2))); // $ is root
@@ -75,7 +76,7 @@ class CustomerControllerTest {
 
         when(customerService.getCustomerByLastName(anyString())).thenReturn(customerAPI1);
 
-        mockMvc.perform(get("/api/customers/TheDude")
+        mockMvc.perform(get(URL_ROOT + "/TheDude")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(firstName)));
@@ -89,7 +90,7 @@ class CustomerControllerTest {
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customerAPI1);
 
-        mockMvc.perform(get("/api/customers/id/23")
+        mockMvc.perform(get(URL_ROOT + "/id/23")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(firstName)));
@@ -113,7 +114,7 @@ class CustomerControllerTest {
 
         when(customerService.getAllCustomersByLastName(anyString())).thenReturn(customerAPIList);
 
-        mockMvc.perform(get("/api/customers/Smith/all")
+        mockMvc.perform(get(URL_ROOT + "/Smith/all")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2))); // $ is root
@@ -129,17 +130,17 @@ class CustomerControllerTest {
         CustomerAPI savedCustomer = new CustomerAPI();
         savedCustomer.setFirstname(customer.getFirstname());
         savedCustomer.setLastname(customer.getLastname());
-        savedCustomer.setCustomer_url("/api/customers/id/1");
+        savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
 
         when(customerService.createCustomer(customer)).thenReturn(savedCustomer);
 
         //when/then
-        mockMvc.perform(post("/api/customers/")
+        mockMvc.perform(post(URL_ROOT + "/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstname", equalTo("Mary")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/customers/id/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(URL_ROOT + "/id/1")));
     }
 
     /**
@@ -166,18 +167,18 @@ class CustomerControllerTest {
         CustomerAPI savedCustomer = new CustomerAPI();
         savedCustomer.setFirstname(customer.getFirstname());
         savedCustomer.setLastname(customer.getLastname());
-        savedCustomer.setCustomer_url("/api/customers/id/1");
+        savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
 
         when(customerService.saveCustomer(1L, customer)).thenReturn(savedCustomer);
 
         // testing a PUT request
-        mockMvc.perform(put("/api/customers/id/1")
+        mockMvc.perform(put(URL_ROOT + "/id/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Mary")))
                 .andExpect(jsonPath("$.lastname", equalTo("Magdalen")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/customers/id/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(URL_ROOT + "/id/1")));
     }
 
     @Test
@@ -191,17 +192,26 @@ class CustomerControllerTest {
         CustomerAPI savedCustomer = new CustomerAPI();
         savedCustomer.setFirstname(customer.getFirstname());
         savedCustomer.setLastname("NewLastName");
-        savedCustomer.setCustomer_url("/api/customers/id/1");
+        savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
 
         when(customerService.patchCustomer(anyLong(), any(CustomerAPI.class))).thenReturn(savedCustomer);
 
         // testing a PUT request
-        mockMvc.perform(patch("/api/customers/id/1")
+        mockMvc.perform(patch(URL_ROOT + "/id/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Mary")))
                 .andExpect(jsonPath("$.lastname", equalTo("NewLastName")))
-                .andExpect(jsonPath("$.customer_url", equalTo("/api/customers/id/1")));
+                .andExpect(jsonPath("$.customer_url", equalTo(URL_ROOT + "/id/1")));
+    }
+
+    @Test
+    public void deleteCustomer() throws Exception {
+        mockMvc.perform(delete(URL_ROOT + "/id/1")
+            .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(customerService, times(1)).deleteCustomerById(anyLong());
     }
 }
