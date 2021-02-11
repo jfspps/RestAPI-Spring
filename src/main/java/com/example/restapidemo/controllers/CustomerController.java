@@ -76,4 +76,14 @@ public class CustomerController {
     public ResponseEntity<CustomerAPI> updateCustomer(@PathVariable String ID, @RequestBody CustomerAPI customerAPI){
         return new ResponseEntity<>(customerService.saveCustomer(Long.valueOf(ID), customerAPI), HttpStatus.OK);
     }
+
+    /**
+     * Updates a customer and saves their records to the endpoint DB. Use "/api/customers/id/{someId}"
+     * @param customerAPI body of the request (note that some properties can be null and are subsequently ignored)
+     * @return customer URL "/api/customers/id/customer_id"
+     */
+    @PatchMapping({"/id/{ID}"})
+    public ResponseEntity<CustomerAPI> patchCustomer(@PathVariable String ID, @RequestBody CustomerAPI customerAPI){
+        return new ResponseEntity<>(customerService.patchCustomer(Long.valueOf(ID), customerAPI), HttpStatus.OK);
+    }
 }
