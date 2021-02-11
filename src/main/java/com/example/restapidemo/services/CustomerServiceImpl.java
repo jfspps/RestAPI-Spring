@@ -72,4 +72,23 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Customer updated: " + foundCustomerAPI.getCustomer_url());
         return foundCustomerAPI;
     }
+
+    // similar to saveCustomer except that some fields are allowed to be null (e.g. update first name only)
+    // null fields are not saved to the DB
+    // this is tested via an integration test, not via Mocks
+    @Override
+    public CustomerAPI patchCustomer(Long id, CustomerAPI customerDTO) {
+        return customerRepository.findById(id).map(customer -> {
+
+            if(customerDTO.getFirstname() != null){
+                customer.setFirstname(customerDTO.getFirstname());
+            }
+
+            if(customerDTO.getLastname() != null){
+                customer.setLastname(customerDTO.getLastname());
+            }
+
+            return customerMapper.customerToCustomerAPI(customerRepository.save(customer));
+        }).orElseThrow(RuntimeException::new);
+    }
 }

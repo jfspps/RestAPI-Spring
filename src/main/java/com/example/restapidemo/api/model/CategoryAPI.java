@@ -10,5 +10,7 @@ public class CategoryAPI {
 
     private Long id;
     private String name;
+
+    // provides a URL to access the relevant entity via a HTTP request
     private String category_url;
 }

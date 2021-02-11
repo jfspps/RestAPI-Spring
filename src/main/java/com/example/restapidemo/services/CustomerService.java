@@ -16,4 +16,7 @@ public interface CustomerService {
     CustomerAPI createCustomer(CustomerAPI customerAPI);
 
     CustomerAPI saveCustomer(Long id, CustomerAPI customerAPI);
+
+    // similar to saveCustomer except that some fields are allowed to be null (e.g. update first name only)
+    CustomerAPI patchCustomer(Long id, CustomerAPI customerDTO);
 }
