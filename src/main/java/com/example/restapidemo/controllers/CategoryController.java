@@ -4,17 +4,18 @@ import com.example.restapidemo.api.model.CategoryAPI;
 import com.example.restapidemo.api.model.CategoryListAPI;
 import com.example.restapidemo.services.CategoryService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/api/categories")
+// @RestController does away with returning ResponseEntity<> and is a more modern and cleaner
+// implementation cf. @Controller for REST APIs (refactored below)
+@RestController
+@RequestMapping(CategoryController.ROOT_URL)
 public class CategoryController {
 
     private final CategoryService categoryService;
+
+    // reminder, this is also accessible to other controller and tests
+    public static final String ROOT_URL = "/api/categories";
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -25,8 +26,9 @@ public class CategoryController {
      * @return JSON formatted list
      */
     @GetMapping("/")
-    public ResponseEntity<CategoryListAPI> getAllCategories(){
-        return new ResponseEntity<>(new CategoryListAPI(categoryService.getAllCategories()), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryListAPI getAllCategories(){
+        return new CategoryListAPI(categoryService.getAllCategories());
     }
 
     /**
@@ -35,7 +37,8 @@ public class CategoryController {
      * @return JSON formatted list
      */
     @GetMapping("/{name}")
-    public ResponseEntity<CategoryAPI> getCategoryByName(@PathVariable String name){
-        return new ResponseEntity<>(categoryService.getCategoryByName(name), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryAPI getCategoryByName(@PathVariable String name){
+        return categoryService.getCategoryByName(name);
     }
 }
