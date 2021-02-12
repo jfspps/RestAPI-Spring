@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThat;
 // DataJpaTest only brings up a smaller portion of the context
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class CustomerService_patchIT {
+public class CustomerServiceIT {
 
     @Autowired
     CustomerRepository customerRepository;
@@ -36,7 +36,6 @@ public class CustomerService_patchIT {
 
     CustomerService customerService;
 
-    // equivalent to BeforeEach
     @Before
     public void setUp() throws Exception {
         System.out.println("Loading Customer Data");
@@ -99,6 +98,8 @@ public class CustomerService_patchIT {
         assertThat(originalLastName, not(equalTo(updatedCustomer.getLastname())));
     }
 
+
+    // returns a valid ID (changes to the database change IDs)
     private Long getCustomerIdValue(){
         List<Customer> customers = customerRepository.findAll();
 

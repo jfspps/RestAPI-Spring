@@ -40,7 +40,9 @@ class CategoryControllerTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryController)
+                .setControllerAdvice(new RESTResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test

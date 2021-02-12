@@ -3,6 +3,7 @@ package com.example.restapidemo.services;
 import com.example.restapidemo.api.mapper.CustomerMapper;
 import com.example.restapidemo.api.model.CustomerAPI;
 import com.example.restapidemo.domain.Customer;
+import com.example.restapidemo.exceptions.ResourceNotFoundException;
 import com.example.restapidemo.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper customerMapper;
     private final CustomerRepository customerRepository;
 
+    // one could also get CustomerController's URL root to keep both Service and Controller url's in sync
     public static final String CUSTOMER_URL = "/api/customers";
 
     public CustomerServiceImpl(CustomerMapper customerMapper, CustomerRepository customerRepository) {
@@ -55,22 +57,13 @@ public class CustomerServiceImpl implements CustomerService {
         return saveCustomerAndReturnAPI(newCustomer);
     }
 
+    // this saves the customer, regardless if a record with the ID already exists or not
     @Override
     public CustomerAPI saveCustomer(Long id, CustomerAPI customerAPI) {
         Customer customer = customerMapper.customerAPIToCustomer(customerAPI);
         customer.setId(id);
 
         return saveCustomerAndReturnAPI(customer);
-    }
-
-    private CustomerAPI saveCustomerAndReturnAPI(Customer newCustomer) {
-        Customer saved = customerRepository.save(newCustomer);
-
-        CustomerAPI foundCustomerAPI = customerMapper.customerToCustomerAPI(saved);
-        foundCustomerAPI.setCustomer_url(CUSTOMER_URL + "/id/" + saved.getId());
-
-        log.info("Customer updated: " + foundCustomerAPI.getCustomer_url());
-        return foundCustomerAPI;
     }
 
     // similar to saveCustomer except that some fields are allowed to be null (e.g. update first name only)
@@ -92,11 +85,21 @@ public class CustomerServiceImpl implements CustomerService {
             updatedCustomer.setCustomer_url(CUSTOMER_URL + "/id/" + id);
 
             return updatedCustomer;
-        }).orElseThrow(RuntimeException::new);
+        }).orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private CustomerAPI saveCustomerAndReturnAPI(Customer newCustomer) {
+        Customer saved = customerRepository.save(newCustomer);
+
+        CustomerAPI foundCustomerAPI = customerMapper.customerToCustomerAPI(saved);
+        foundCustomerAPI.setCustomer_url(CUSTOMER_URL + "/id/" + saved.getId());
+
+        log.info("Customer updated: " + foundCustomerAPI.getCustomer_url());
+        return foundCustomerAPI;
     }
 }

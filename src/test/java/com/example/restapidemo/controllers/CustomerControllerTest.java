@@ -2,6 +2,7 @@ package com.example.restapidemo.controllers;
 
 import com.example.restapidemo.api.model.CustomerAPI;
 import com.example.restapidemo.domain.Customer;
+import com.example.restapidemo.exceptions.ResourceNotFoundException;
 import com.example.restapidemo.services.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.util.Arrays;
@@ -43,7 +44,9 @@ class CustomerControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+                .setControllerAdvice(new RESTResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -80,6 +83,15 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(firstName)));
+    }
+
+    @Test
+    public void testCustomerNotFound() throws Exception {
+        when(customerService.getCustomerByLastName(anyString())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(get(URL_ROOT + "/Johnny")
+        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -132,7 +144,7 @@ class CustomerControllerTest {
         savedCustomer.setLastname(customer.getLastname());
         savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
 
-        when(customerService.createCustomer(customer)).thenReturn(savedCustomer);
+        when(customerService.createCustomer(any(CustomerAPI.class))).thenReturn(savedCustomer);
 
         //when/then
         mockMvc.perform(post(URL_ROOT + "/")
@@ -169,7 +181,7 @@ class CustomerControllerTest {
         savedCustomer.setLastname(customer.getLastname());
         savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
 
-        when(customerService.saveCustomer(1L, customer)).thenReturn(savedCustomer);
+        when(customerService.saveCustomer(anyLong(), any(CustomerAPI.class))).thenReturn(savedCustomer);
 
         // testing a PUT request
         mockMvc.perform(put(URL_ROOT + "/id/1")
