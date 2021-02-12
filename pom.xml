@@ -17,6 +17,7 @@
         <java.version>11</java.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <org.projectlombok.version>1.18.16</org.projectlombok.version>
+        <springdoc.version>1.5.4</springdoc.version>
     </properties>
     <dependencies>
         <dependency>
@@ -59,6 +60,13 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+
+<!--        OpenAI (aka Swagger 2.0 specification); see https://springdoc.org/     -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
     </dependencies>
 

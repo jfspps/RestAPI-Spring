@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+// @Controller + @ResponseBody = @RestController (needed for Swagger to recognise CustomerAPI with http://localhost:8080/swagger-ui.html
 @Controller
+@ResponseBody
 @RequestMapping("/api/customers")
 public class CustomerController {
 
