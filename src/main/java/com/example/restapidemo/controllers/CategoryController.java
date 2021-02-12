@@ -3,11 +3,13 @@ package com.example.restapidemo.controllers;
 import com.example.restapidemo.api.model.CategoryAPI;
 import com.example.restapidemo.api.model.CategoryListAPI;
 import com.example.restapidemo.services.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 // @RestController does away with returning ResponseEntity<> and is a more modern and cleaner
 // implementation cf. @Controller for REST APIs (refactored below)
+@Tag(name = "category-controller", description = "This is the Category controller")
 @RestController
 @RequestMapping(CategoryController.ROOT_URL)
 public class CategoryController {

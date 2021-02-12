@@ -3,6 +3,8 @@ package com.example.restapidemo.controllers;
 import com.example.restapidemo.api.model.CustomerAPI;
 import com.example.restapidemo.api.model.CustomerListAPI;
 import com.example.restapidemo.services.CustomerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @ResponseBody
 @RequestMapping("/api/customers")
+@Tag(name = "customer-controller", description = "This is the Customer controller")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -25,6 +28,7 @@ public class CustomerController {
      * @return JSON formatted list
      */
     @GetMapping("/")
+    @Operation(summary = "This lists all customers", description = "More detailed description goes here")
     public ResponseEntity<CustomerListAPI> getAllCustomers(){
         return new ResponseEntity<>(new CustomerListAPI(customerService.getAllCustomers()), HttpStatus.OK);
     }
