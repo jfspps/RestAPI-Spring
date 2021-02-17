@@ -35,3 +35,7 @@ By default, Spring returns JSON on request. To return XML, the following depende
 
 Indeed, adding these dependencies allows the client to receive JSON or XML based on their `Accept` key value of the header (the value should be set to `application/json` or `appliction/xml` as desired). Be aware
 that unit tests will be looking for JSON or XML, usually not both (unless they have already been written).
+
+## XSD to Java Classes with JAXB
+
+One can use XSD (XML Schema) files to build Java classes using JAXB (Java Architecture for XML Binding). 
