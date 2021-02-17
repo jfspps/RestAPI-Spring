@@ -1,17 +1,18 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="CustomerListAPI" type="CustomerListAPIType"/>
-    <xs:complexType name="customersType">
+    <xs:element name="CustomerListAPI" type="CustomerListAPI"/>
+    <xs:complexType name="Customer">
         <xs:sequence>
+<!--            Build an object of type Customer the following properties -->
             <xs:element type="xs:byte" name="id" minOccurs="0"/>
             <xs:element type="xs:string" name="firstname" minOccurs="0"/>
             <xs:element type="xs:string" name="lastname" minOccurs="0"/>
-            <xs:element type="xs:string" name="customer_url" minOccurs="0"/>
-            <xs:element type="customersType" name="customers" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="xs:string" name="customerUrl" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="CustomerListAPIType">
+    <xs:complexType name="CustomerListAPI">
         <xs:sequence>
-            <xs:element type="customersType" name="customers"/>
+<!--            Build a list of type Customer with the list variable name customers, allow 0 elements up to infinity! -->
+            <xs:element type="Customer" name="customers" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
