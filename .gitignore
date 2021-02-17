@@ -162,7 +162,7 @@ local.properties
 .settings/
 .loadpath
 .factorypath
-/src/main/resources/rebel.xml
+/restapidemo-mvc/src/main/resources/rebel.xml
 
 # External tool builders
 .externalToolBuilders/**
