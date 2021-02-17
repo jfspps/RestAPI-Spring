@@ -65,7 +65,9 @@ class CustomerControllerTest {
 
         when(customerService.getAllCustomers()).thenReturn(customerAPIList);
 
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(get(URL_ROOT + "/")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2))); // $ is root
@@ -79,7 +81,9 @@ class CustomerControllerTest {
 
         when(customerService.getCustomerByLastName(anyString())).thenReturn(customerAPI1);
 
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(get(URL_ROOT + "/TheDude")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(firstName)));
@@ -102,7 +106,9 @@ class CustomerControllerTest {
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customerAPI1);
 
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(get(URL_ROOT + "/id/23")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo(firstName)));
@@ -126,7 +132,9 @@ class CustomerControllerTest {
 
         when(customerService.getAllCustomersByLastName(anyString())).thenReturn(customerAPIList);
 
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(get(URL_ROOT + "/Smith/all")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2))); // $ is root
@@ -147,7 +155,9 @@ class CustomerControllerTest {
         when(customerService.createCustomer(any(CustomerAPI.class))).thenReturn(savedCustomer);
 
         //when/then
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(post(URL_ROOT + "/")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isCreated())
@@ -184,7 +194,9 @@ class CustomerControllerTest {
         when(customerService.saveCustomer(anyLong(), any(CustomerAPI.class))).thenReturn(savedCustomer);
 
         // testing a PUT request
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(put(URL_ROOT + "/id/1")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())
@@ -209,7 +221,9 @@ class CustomerControllerTest {
         when(customerService.patchCustomer(anyLong(), any(CustomerAPI.class))).thenReturn(savedCustomer);
 
         // testing a PUT request
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(patch(URL_ROOT + "/id/1")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customer)))
                 .andExpect(status().isOk())

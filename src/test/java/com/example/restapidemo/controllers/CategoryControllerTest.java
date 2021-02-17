@@ -59,7 +59,9 @@ class CategoryControllerTest {
 
         when(categoryService.getAllCategories()).thenReturn(categories);
 
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(get("/api/categories/")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(2))); // $ is root
@@ -73,7 +75,9 @@ class CategoryControllerTest {
 
         when(categoryService.getCategoryByName(anyString())).thenReturn(category1);
 
+        // set the header of the request to accept JSON (as given by accept())
         mockMvc.perform(get("/api/categories/Jim")
+                .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)));

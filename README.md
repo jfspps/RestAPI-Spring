@@ -13,3 +13,25 @@ The data is mapped from entities on the endpoint's database (H2 in this case) vi
 With RESTful API development, it is generally good practice to build packages by version number so that the client can decide which version to utilise, say, "http://localhost:8080/api/v1/categories/Dried" or "http://localhost:8080/api/v2/categories/Dried", for example. In this project, version labelled packages have been omitted, since there is only ever going to be one version of the interface.
 
 The API's documentation (and can be improved) with OpenAPI (formerly, Swagger). Running Spring Boot and then opening [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) provides the user with a web interface, running all the Controller's GET, POST, PUT, PATCH and DELETE requests, where available, with customised instructions and commentary.
+
+## XML instead of JSON
+
+By default, Spring returns JSON on request. To return XML, the following dependencies would need to be added:
+
+`
+<dependency>
+<groupId>com.fasterxml.jackson.dataformat</groupId>
+<artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+`
+
+`
+<dependency>
+<groupId>javax.xml.bind</groupId>
+<artifactId>jaxb-api</artifactId>
+<version>2.3.1</version>
+</dependency>
+`
+
+Indeed, adding these dependencies allows the client to receive JSON or XML based on their `Accept` key value of the header (the value should be set to `application/json` or `appliction/xml` as desired). Be aware
+that unit tests will be looking for JSON or XML, usually not both (unless they have already been written).
