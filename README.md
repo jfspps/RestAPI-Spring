@@ -39,3 +39,5 @@ that unit tests will be looking for JSON or XML, usually not both (unless they h
 ## XSD to Java Classes with JAXB
 
 One can use XSD (XML Schema) files to build Java classes using JAXB (Java Architecture for XML Binding). This project was refactored as two modules, followed by Maven clean and package.
+
+When importing the JAXB class, run Maven package first to ensure the /target directories are built before changing the imports relevant to the generated JAXB class (in this case, CustomerListAPI).

@@ -1,6 +1,7 @@
 package com.example.services;
 
-import com.example.api.model.CustomerAPI;
+// import from JAXB model
+import com.example.JAXBmodel.CustomerAPI;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface CustomerService {
     CustomerAPI saveCustomer(Long id, CustomerAPI customerAPI);
 
     // similar to saveCustomer except that some fields are allowed to be null (e.g. update first name only)
-    CustomerAPI patchCustomer(Long id, CustomerAPI customerDTO);
+    CustomerAPI patchCustomer(Long id, CustomerAPI customerAPI);
 
     void deleteCustomerById(Long id);
 }

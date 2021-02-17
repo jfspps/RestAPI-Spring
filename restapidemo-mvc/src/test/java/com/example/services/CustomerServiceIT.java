@@ -1,7 +1,7 @@
 package com.example.services;
 
+import com.example.JAXBmodel.CustomerAPI;
 import com.example.api.mapper.CustomerMapper;
-import com.example.api.model.CustomerAPI;
 import com.example.bootstrap.Bootstrap;
 import com.example.domain.Customer;
 import com.example.repositories.CategoryRepository;

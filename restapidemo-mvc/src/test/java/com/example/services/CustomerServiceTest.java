@@ -1,7 +1,7 @@
 package com.example.services;
 
+import com.example.JAXBmodel.CustomerAPI;
 import com.example.api.mapper.CustomerMapper;
-import com.example.api.model.CustomerAPI;
 import com.example.domain.Customer;
 import com.example.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,7 +106,7 @@ class CustomerServiceTest {
          CustomerAPI savedAPI = customerService.createCustomer(customerAPI);
 
          assertEquals(lastName, savedAPI.getLastname());
-         assertEquals("/api/customers/id/" + id, savedAPI.getCustomer_url());
+         assertEquals("/api/customers/id/" + id, savedAPI.getCustomerUrl());
     }
 
     @Test
@@ -124,7 +124,7 @@ class CustomerServiceTest {
         CustomerAPI savedAPI = customerService.saveCustomer(id, customerAPI);
 
         assertEquals(lastName, savedAPI.getLastname());
-        assertEquals("/api/customers/id/" + id, savedAPI.getCustomer_url());
+        assertEquals("/api/customers/id/" + id, savedAPI.getCustomerUrl());
     }
 
     @Test

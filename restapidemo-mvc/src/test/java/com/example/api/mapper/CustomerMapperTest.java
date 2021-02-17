@@ -1,11 +1,11 @@
 package com.example.api.mapper;
 
-import com.example.api.model.CustomerAPI;
+import com.example.JAXBmodel.CustomerAPI;
 import com.example.domain.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerMapperTest {
 

@@ -1,6 +1,7 @@
 package com.example.api.mapper;
 
-import com.example.api.model.CustomerAPI;
+
+import com.example.JAXBmodel.CustomerAPI;
 import com.example.domain.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

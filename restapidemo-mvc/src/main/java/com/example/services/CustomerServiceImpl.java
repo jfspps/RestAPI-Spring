@@ -1,7 +1,9 @@
 package com.example.services;
 
+import com.example.JAXBmodel.CustomerAPI;
 import com.example.api.mapper.CustomerMapper;
-import com.example.api.model.CustomerAPI;
+
+
 import com.example.domain.Customer;
 import com.example.exceptions.ResourceNotFoundException;
 import com.example.repositories.CustomerRepository;
@@ -82,7 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
             }
 
             CustomerAPI updatedCustomer = customerMapper.customerToCustomerAPI(customerRepository.save(customer));
-            updatedCustomer.setCustomer_url(CUSTOMER_URL + "/id/" + id);
+            updatedCustomer.setCustomerUrl(CUSTOMER_URL + "/id/" + id);
 
             return updatedCustomer;
         }).orElseThrow(ResourceNotFoundException::new);
@@ -97,9 +99,9 @@ public class CustomerServiceImpl implements CustomerService {
         Customer saved = customerRepository.save(newCustomer);
 
         CustomerAPI foundCustomerAPI = customerMapper.customerToCustomerAPI(saved);
-        foundCustomerAPI.setCustomer_url(CUSTOMER_URL + "/id/" + saved.getId());
+        foundCustomerAPI.setCustomerUrl(CUSTOMER_URL + "/id/" + saved.getId());
 
-        log.info("Customer updated: " + foundCustomerAPI.getCustomer_url());
+        log.info("Customer updated: " + foundCustomerAPI.getCustomerUrl());
         return foundCustomerAPI;
     }
 }

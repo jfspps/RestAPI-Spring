@@ -1,7 +1,9 @@
 package com.example.controllers;
 
-import com.example.api.model.CustomerAPI;
-import com.example.api.model.CustomerListAPI;
+
+
+import com.example.JAXBmodel.CustomerAPI;
+import com.example.JAXBmodel.CustomerListAPI;
 import com.example.services.CustomerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +32,9 @@ public class CustomerController {
     @GetMapping("/")
     @Operation(summary = "This lists all customers", description = "More detailed description goes here")
     public ResponseEntity<CustomerListAPI> getAllCustomers(){
-        return new ResponseEntity<>(new CustomerListAPI(customerService.getAllCustomers()), HttpStatus.OK);
+        CustomerListAPI customerListAPI = new CustomerListAPI();
+        customerListAPI.getCustomers().addAll(customerService.getAllCustomers());
+        return new ResponseEntity<>(customerListAPI, HttpStatus.OK);
     }
 
     /**
@@ -60,7 +64,9 @@ public class CustomerController {
      */
     @GetMapping("/{lastName}/all")
     public ResponseEntity<CustomerListAPI> getAllCustomersByLastName(@PathVariable String lastName){
-        return new ResponseEntity<>(new CustomerListAPI(customerService.getAllCustomersByLastName(lastName)), HttpStatus.OK);
+        CustomerListAPI customerListAPI = new CustomerListAPI();
+        customerListAPI.getCustomers().addAll(customerService.getAllCustomersByLastName(lastName));
+        return new ResponseEntity<>(customerListAPI, HttpStatus.OK);
     }
 
     /**
@@ -105,6 +111,6 @@ public class CustomerController {
 
         customerService.deleteCustomerById(Long.valueOf(ID));
 
-        return new ResponseEntity<Void>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

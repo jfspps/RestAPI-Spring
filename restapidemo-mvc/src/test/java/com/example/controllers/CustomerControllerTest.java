@@ -1,6 +1,6 @@
 package com.example.controllers;
 
-import com.example.api.model.CustomerAPI;
+import com.example.JAXBmodel.CustomerAPI;
 import com.example.exceptions.ResourceNotFoundException;
 import com.example.services.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -148,7 +148,7 @@ class CustomerControllerTest {
         CustomerAPI savedCustomer = new CustomerAPI();
         savedCustomer.setFirstname(customer.getFirstname());
         savedCustomer.setLastname(customer.getLastname());
-        savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
+        savedCustomer.setCustomerUrl(URL_ROOT + "/id/1");
 
         when(customerService.createCustomer(any(CustomerAPI.class))).thenReturn(savedCustomer);
 
@@ -160,7 +160,7 @@ class CustomerControllerTest {
                 .content(asJsonString(customer)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstname", equalTo("Mary")))
-                .andExpect(jsonPath("$.customer_url", equalTo(URL_ROOT + "/id/1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(URL_ROOT + "/id/1")));
     }
 
     /**
@@ -187,7 +187,7 @@ class CustomerControllerTest {
         CustomerAPI savedCustomer = new CustomerAPI();
         savedCustomer.setFirstname(customer.getFirstname());
         savedCustomer.setLastname(customer.getLastname());
-        savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
+        savedCustomer.setCustomerUrl(URL_ROOT + "/id/1");
 
         when(customerService.saveCustomer(anyLong(), any(CustomerAPI.class))).thenReturn(savedCustomer);
 
@@ -200,7 +200,7 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Mary")))
                 .andExpect(jsonPath("$.lastname", equalTo("Magdalen")))
-                .andExpect(jsonPath("$.customer_url", equalTo(URL_ROOT + "/id/1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(URL_ROOT + "/id/1")));
     }
 
     @Test
@@ -214,7 +214,8 @@ class CustomerControllerTest {
         CustomerAPI savedCustomer = new CustomerAPI();
         savedCustomer.setFirstname(customer.getFirstname());
         savedCustomer.setLastname("NewLastName");
-        savedCustomer.setCustomer_url(URL_ROOT + "/id/1");
+        savedCustomer.setCustomerUrl(URL_ROOT + "/id/1");
+        savedCustomer.setId(1L);
 
         when(customerService.patchCustomer(anyLong(), any(CustomerAPI.class))).thenReturn(savedCustomer);
 
@@ -227,7 +228,7 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstname", equalTo("Mary")))
                 .andExpect(jsonPath("$.lastname", equalTo("NewLastName")))
-                .andExpect(jsonPath("$.customer_url", equalTo(URL_ROOT + "/id/1")));
+                .andExpect(jsonPath("$.customerUrl", equalTo(URL_ROOT + "/id/1")));
     }
 
     @Test

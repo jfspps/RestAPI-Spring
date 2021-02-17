@@ -40,7 +40,7 @@
                 </executions>
                 <configuration>
                     <!-- The package of your generated sources -->
-                    <packageName>com.example.model</packageName>
+                    <packageName>com.example.JAXBmodel</packageName>
                     <!-- Define the directory where we should find the DTD files -->
                     <sources>
                         <source>src/main/resources/xsd</source>
